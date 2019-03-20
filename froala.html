@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+
+		<style type="text/css">
+
+			body 				{ font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; }
+			.input-set 			{ margin: 0 0 15px 0; }
+			.input-set label 	{ display: block; }
+			.input-set textarea { width: 800px; height: 200px; }
+
+		</style>
+
+		<!-- <script src="/js/MooTools-full-1.6.0-no-compat.js"></script> -->
+
+		<!-- Include Font Awesome CSS. -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+		<!-- Include editor styles. -->
+		<link href="https://cdn.jsdelivr.net/npm/froala-editor@2.9.1/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+		<link href="https://cdn.jsdelivr.net/npm/froala-editor@2.9.1/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+
+	</head>
+
+	<body>
+
+		<h1>Froala Test</h1>
+
+		<form method="post" action="/" name="theForm" id="theForm">
+
+			<div class="input-set">
+				<label>JS Running:</label>
+				<div id="jsTest">false</div>
+			</div>
+
+			<div class="input-set">
+				<label>Body Content:</label>
+				<textarea name="bodyContent" id="bodyContent"></textarea>
+			</div>
+
+			<div class="input-set">
+				<input type="submit" name="Submit" value="Submit">
+			</div>
+
+		</form>
+
+	</body>
+
+	<!-- Include the Jquery dep. -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+	<!-- Add editor JS files. -->
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@2.9.1/js/froala_editor.pkgd.min.js"></script>
+
+
+	<!-- Initialize Froala Editor. -->
+	<script>
+		$(function(){
+			$('textarea').froalaEditor({
+
+				// Set a preloader.
+				imageManagerPreloader: "/js/froala_editor_2.9.3/img/loading.gif",
+
+				// Set page size.
+				imageManagerPageSize: 20,
+
+				// Set a scroll offset (value in pixels).
+				imageManagerScrollOffset: 10,
+
+				// Set the load images request URL.
+				imageManagerLoadURL: "/js/froala_editor_2.9.3/img/",
+
+				// Set the load images request type.
+				imageManagerLoadMethod: "GET",
+
+				// Additional load params.
+				imageManagerLoadParams: {user_id: 4219762},
+
+				// Set the delete image request URL.
+				imageManagerDeleteURL: "http://example.com/delete_image",
+
+				// Set the delete image request type.
+				imageManagerDeleteMethod: "DELETE",
+
+				// Additional delete params.
+				imageManagerDeleteParams: {param: 'value'}
+			})
+			.on( 'froalaEditor.imageManager.error', function (e, editor, error, response) {
+				// Bad link. One of the returned image links cannot be loaded.
+				if (error.code == 10) { /* something */ }
+
+				// Error during request.
+				else if (error.code == 11) { /* something */ }
+
+				// Missing imagesLoadURL option.
+				else if (error.code == 12) { /* something */ }
+
+				// Parsing response failed.
+				else if (error.code == 13) { /* something */ }
+
+				//console.log( 'e:' );
+				//console.log( e );
+				//console.log( 'editor:' );
+				//console.log( editor );
+				console.log( 'error:' );
+				console.log( error );
+				console.log( 'response:' );
+				console.log( response );
+
+			})
+			.on('froalaEditor.imageManager.imagesLoaded', function (e, editor, data) {
+				// Do something when the request finishes with success.
+				alert ('Images have been loaded.');
+			})
+			.on('froalaEditor.imageManager.imageLoaded', function (e, editor, $img) {
+				// Do something when an image is loaded in the image manager
+				alert ('Image has been loaded.');
+			})
+			.on('froalaEditor.imageManager.beforeDeleteImage', function (e, editor, $img) {
+				// Do something before deleting an image from the image manager.
+				alert ('Image will be deleted.');
+			})
+			.on('froalaEditor.imageManager.imageDeleted', function (e, editor, data) {
+				// Do something after the image was deleted from the image manager.
+				alert ('Image has been deleted.');
+			});
+
+		});
+	</script>
+
+</html>

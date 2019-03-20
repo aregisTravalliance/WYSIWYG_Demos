@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+
+		<style type="text/css">
+
+			body 				{ font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; }
+			.input-set 			{ margin: 0 0 15px 0; }
+			.input-set label 	{ display: block; }
+			.input-set textarea { width: 800px; height: 200px; }
+
+		</style>
+
+		<script src="/js/MooTools-full-1.6.0-no-compat.js"></script>
+
+	</head>
+
+	<body>
+
+		<h1>CKFinder Test (Git!)</h1>
+
+		<form method="post" action="/" name="theForm" id="theForm">
+
+			<div class="input-set">
+				<label>JS Running:</label>
+				<div id="jsTest">false</div>
+			</div>
+
+			<div class="input-set">
+				<label>Body Content:</label>
+				<textarea name="bodyContent" id="bodyContent"></textarea>
+			</div>
+
+			<div class="input-set">
+				<input type="submit" name="Submit" value="Submit">
+			</div>
+
+		</form>
+
+	</body>
+
+	<script type="text/javascript">
+
+		window.addEvent( 'domready', function() {
+
+			if ( $( 'jsTest' ) ) {
+				$( 'jsTest' ).set( 'html', 'true' );
+			}
+
+			theCKEditor = new Asset.javascript( '/js/ckeditor5-build-classic/ckeditor.js', {
+				id:		'theCKEditorScript',
+				onload:	function() {
+
+					theCKFinder = new Asset.javascript( '/js/ckfinder3/ckfinder.js', {
+						id:		'theCKFinderScript',
+						onload:	function() {
+
+							ClassicEditor.create( document.querySelector( '#bodyContent' ), {
+								ckfinder: {
+									uploadUrl: '/ckfinder3/connector?command=QuickUpload&type=Images&responseType=json',
+									options: {
+										pass: 'appGuid',
+										appGuid: '00004626-eddb-01a3-08e7-3114563df664'
+									}
+								},
+								toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'ckfinder' ],
+								heading: {
+									options: [
+										{ model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+										{ model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+										{ model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+									]
+								}
+							} )
+							.catch( error => {
+								console.log( error );
+							} );
+
+						}
+
+					});
+				}
+			});
+
+		});
+
+	</script>
+
+</html>
